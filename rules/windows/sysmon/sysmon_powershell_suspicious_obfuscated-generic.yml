@@ -1,0 +1,21 @@
+title: Suspicious Powershell Encrypted String
+status: experimental
+description: Detects
+author: Andrew Bannon
+logsource:
+    product: windows
+    service: sysmon
+    description: 'It is recommanded to use the new "Script Block Logging" of PowerShell v5 https://adsecurity.org/?p=2277'
+detection:
+    selection:
+        Image: '*\cmd.exe'
+        Commandline:
+          - '*convertto-securestring*'
+          - '*-key*'
+        ParentImage:
+          - '*\WINWORD.exe'
+          - '*\EXCEL.exe'
+    condition: selection
+falsepositives:
+    - unlikely
+level: medium
